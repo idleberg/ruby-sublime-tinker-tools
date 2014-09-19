@@ -5,7 +5,7 @@ require "builder"
 require "oj"
 
 # Configuration
-$scope           = "text.html -text.html.markdown"
+$scope           = "text.html"
 $replace_strings = [
     [" ",   "_"],
     ["\t",  "-"]
