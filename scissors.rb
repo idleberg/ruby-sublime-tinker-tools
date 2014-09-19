@@ -5,7 +5,6 @@ require "builder"
 require "oj"
 
 # Configuration
-$set_scope          = "text.html"
 $to_subfolder       = true
 $delete_completions = false
 
@@ -16,19 +15,19 @@ $replace_strings   = [
 ]
 
 meta_info = <<-EOF
-\nsublime-scissors, version 0.0.2
+\nsublime-scissors, version 0.0.3
 The MIT License
 Copyright (c) 2014 Jan T. Sott
 EOF
 
 # Methods
-def product_xml(trigger, contents)
+def product_xml(scope, trigger, contents)
     xml = Builder::XmlMarkup.new( :indent => 2 )
-    xml.comment! "Converted with sublime-scissors — http://github.com/idleberg/sublimetext-scissors"
+    xml.comment! "http://github.com/idleberg/sublimetext-scissors"
     xml.snippet do |el|
-        el << "  <content><![CDATA[\n"+contents+"\n]]><content>\n"
+        el << "  <content><![CDATA[\n"+contents+"\n]]></content>\n"
         el.tabTrigger trigger
-        el.scope $set_scope
+        el.scope scope
     end
 end
 
@@ -41,6 +40,8 @@ Dir.glob("*.sublime-completions") do |completions|
 
     json = File.read(completions)
     parsed = Oj.load(json)
+
+    scope = parsed["scope"]
 
     # Iterate over completions in JSON
     parsed["completions"].each do |line|
@@ -69,7 +70,7 @@ Dir.glob("*.sublime-completions") do |completions|
         # Write snippets
         File.open("#{dir}/#{trigger}.sublime-snippet", "w") do |snippet|
           puts ">> Writing \"#{trigger}.sublime-snippet\""
-          snippet.write(product_xml(trigger, contents))   
+          snippet.write(product_xml(scope, trigger, contents))   
         end
     end
 
