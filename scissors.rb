@@ -31,7 +31,7 @@ end
 puts meta_info
 
 # Iterate over completions in current directory
-Dir.glob("{*.sublime-completions") do |file|
+Dir.glob("*.sublime-completions") do |file|
 
     puts "\n<< Reading \"#{file}\""
 
