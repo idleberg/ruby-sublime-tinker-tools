@@ -18,11 +18,12 @@ trigger_filter = [
 
 # Define which characters you want to substitute in the snippet
 contents_filter = [
-    ["\\$",   "\$"]
+    ['\\$',   '\$'],
+    ['\"',    '"']
 ]
 
 meta_info = <<-EOF
-\nsublime-scissors, version 0.0.5
+\nsublime-scissors, version 0.0.6
 The MIT License
 Copyright (c) 2014 Jan T. Sott
 EOF
