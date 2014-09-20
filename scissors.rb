@@ -9,13 +9,18 @@ $to_subfolder       = true
 $delete_completions = false
 
 # Replace string in trigger before creating file
-$replace_strings   = [
+$trigger_replace    = [
     [" ",   "_"],
     ["\t",  "-"]
 ]
 
+# Replace string in trigger before creating file
+$contents_replace   = [
+    ["\\$",   "\$"]
+]
+
 meta_info = <<-EOF
-\nsublime-scissors, version 0.0.3
+\nsublime-scissors, version 0.0.4
 The MIT License
 Copyright (c) 2014 Jan T. Sott
 EOF
@@ -51,9 +56,14 @@ Dir.glob("*.sublime-completions") do |completions|
         # Break if empty
         next if trigger.to_s.empty? || contents.to_s.empty?
 
-        # Replace spaces in triggers
-        $replace_strings.each do |needle, replacement|
+        # Replacement rules for "trigger"
+        $trigger_replace.each do |needle, replacement|
             trigger = trigger.to_s.gsub(needle, replacement)
+        end
+
+        # Replacement rules for "contents"
+        $contents_replace.each do |needle, replacement|
+            contents = contents.to_s.gsub(needle, replacement)
         end
 
         # Set target directory
