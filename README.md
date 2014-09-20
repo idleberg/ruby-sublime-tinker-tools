@@ -1,6 +1,6 @@
-# sublime scissors
+# sublime-scissors
 
-A simple Ruby scripts that cuts up Sublime Text completions and creates snippets from the pieces.
+A simple Ruby scripts that cuts up Sublime Text completions and creates snippets from the pieces. Snippets are stricter than standard completions, as you can only trigger a snippet after typing the correct prefix. They also have a higher priority over completions. One of the advantages of completions is, of course, that they are often easier to create, especially when copy&paste is involved. Using sublime-scissors, you can create completions and later convert them to snippets.
 
 ## Installation
 
@@ -10,7 +10,13 @@ A simple Ruby scripts that cuts up Sublime Text completions and creates snippets
 
 ## Usage
 
-Place your `sublime-completions` to the same directory as the Ruby script and run `./scissors.rb` (or `ruby /scissors.rb`)
+There are several configuration options available in the header of `scissors.rb` and the should be pretty self-explanatory.
+
+* `$to_subfolder`lets you write all snippets to a subfolder matching the name of your completions
+* `$delete_completions` will delete the completion files after the conversion
+* `$replace_strings` lets you define rules to replace strings in triggers before creating files
+
+Place your `sublime-completions` to the same directory as the Ruby script and run `./scissors.rb` or `ruby scissors.rb`.
 
 ## License
 
