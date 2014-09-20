@@ -12,10 +12,10 @@ A simple Ruby scripts that cuts up Sublime Text completions and creates snippets
 
 There are several configuration options available in the header of `scissors.rb` and the should be pretty self-explanatory.
 
-* `$to_subfolder` writes snippets to a subfolder when set to `true`
-* `$delete_completions` deletes the completion files after conversion
-* `$trigger_replace` define rules to replace strings in `trigger` before using its name to create a file
-* `$contents_replace` define rules to replace strings in `completion` before writing it to a snippet
+* `to_subfolder` writes snippets to a subfolder when set to `true`
+* `delete_completions` deletes the completion files after conversion
+* `trigger_filter` define rules to replace strings in `trigger` before using its name to create a file
+* `contents_filter` define rules to replace strings in `completion` before writing it to a snippet
 
 Place your `sublime-completions` to the same directory as the Ruby script and run `./scissors.rb` or `ruby scissors.rb`.
 
