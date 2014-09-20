@@ -5,22 +5,24 @@ require "builder"
 require "oj"
 
 # Configuration
-$to_subfolder       = true
-$delete_completions = false
+to_subfolder        = true
+delete_completions  = false
 
-# Replace string in trigger before creating file
-$trigger_replace    = [
+# Snippets are created based on trigger-names. Here you define which characters
+# you want to filter before creating a snippet file
+trigger_filter = [
     [" ",   "_"],
+    ["/", ""],
     ["\t",  "-"]
 ]
 
-# Replace string in trigger before creating file
-$contents_replace   = [
+# Define which characters you want to substitute in the snippet
+contents_filter = [
     ["\\$",   "\$"]
 ]
 
 meta_info = <<-EOF
-\nsublime-scissors, version 0.0.4
+\nsublime-scissors, version 0.0.5
 The MIT License
 Copyright (c) 2014 Jan T. Sott
 EOF
@@ -36,7 +38,16 @@ def product_xml(scope, trigger, contents)
     end
 end
 
+def filter_str(input, filter)
+    filter.each do |needle, replacement|
+        input = input.to_s.gsub(needle, replacement)
+    end
+    return input
+end
+
 puts meta_info
+
+counter = 0
 
 # Iterate over completions in current directory
 Dir.glob("*.sublime-completions") do |completions|
@@ -56,18 +67,12 @@ Dir.glob("*.sublime-completions") do |completions|
         # Break if empty
         next if trigger.to_s.empty? || contents.to_s.empty?
 
-        # Replacement rules for "trigger"
-        $trigger_replace.each do |needle, replacement|
-            trigger = trigger.to_s.gsub(needle, replacement)
-        end
-
-        # Replacement rules for "contents"
-        $contents_replace.each do |needle, replacement|
-            contents = contents.to_s.gsub(needle, replacement)
-        end
+        # Run filters
+        trigger = filter_str(trigger, trigger_filter)
+        contents = filter_str(contents, contents_filter)
 
         # Set target directory
-        if $to_subfolder == true
+        if to_subfolder == true
             dir = File.basename(completions, ".*")
 
             unless Dir.exists?(dir)
@@ -85,12 +90,19 @@ Dir.glob("*.sublime-completions") do |completions|
     end
 
     # Delete completions
-    if $delete_completions == true
+    if delete_completions == true
         puts "^^ Deleting \"#{completions}\""
         File.delete(completions)
     end
 
+    counter += 1
 end
 
 # Game Over
-puts "\nCompleted."
+if counter == 0
+    puts "\nNo files found"
+elsif counter == 1
+     puts "\nConverted #{counter} file"
+else
+    puts "\nConverted #{counter} files"
+end
