@@ -27,6 +27,8 @@ Glues together `sublime-snippet` files to form one big `sublime-completions` fil
 
 * `delete_snippets` deletes the snippet files after conversion
 
+Special characters are automatically escaped, hence the missing filter option!
+
 ## License
 
 The MIT License (MIT)
