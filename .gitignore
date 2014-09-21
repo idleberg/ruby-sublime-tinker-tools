@@ -1,3 +1,5 @@
+*.sublime-completions
+*.sublime-snippet
 .bundle/
 Gemfile.lock
 vendor/
