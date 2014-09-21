@@ -1,23 +1,31 @@
-# sublime-scissors
+# sublime-tinkertoys
 
-A simple Ruby scripts that cuts up Sublime Text completions and creates snippets from the pieces. Snippets are stricter than standard completions, as you can only trigger a snippet after typing the correct prefix. They also have a higher priority over completions. One of the advantages of completions is, of course, that they are often easier to create, especially when copy&paste is involved. Using sublime-scissors, you can create completions and later convert them to snippets.
+Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) snippets to snippets and vice versa
 
 ## Installation
 
-1. Clone the repository `git clone https://github.com/idleberg/sublimetext-scissors.git`
-2. Change directory `cd sublimetext-scissors.git`
+1. Clone the repository `git clone https://github.com/idleberg/sublime-tinkertoys.git`
+2. Change directory `cd sublime-tinkertoys.git`
 3. Install Gems using [Bundler](http://bundler.io/) `bundle install`
 
 ## Usage
 
-There are several configuration options available in the header of `scissors.rb` and the should be pretty self-explanatory.
+### scissors.rb
+
+Cuts up `sublime-completions` into smaller `sublime-snippet` files. You can set the following configuration option in the header of the script.
 
 * `to_subfolder` writes snippets to a subfolder when set to `true`
 * `delete_completions` deletes the completion files after conversion
 * `trigger_filter` define rules to replace strings in `trigger` before using its name to create a file
 * `contents_filter` define rules to replace strings in `completion` before writing it to a snippet
 
-Place your `sublime-completions` to the same directory as the Ruby script and run `./scissors.rb` or `ruby scissors.rb`.
+Place your `sublime-completions` to the same directory as the Ruby script and run `./scissors.rb`.
+
+### glue.rb
+
+Glues together `sublime-snippet` files to form one big `sublime-completions` file. You can set the following configuration option in the header of the script.
+
+* `delete_snippets` deletes the snippet files after conversion
 
 ## License
 
@@ -33,4 +41,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Donate
 
-You are welcome support this project using [Flattr](https://flattr.com/submit/auto?user_id=idleberg&url=https://github.com/idleberg/sublimetext-scissors) or Bitcoin `17CXJuPsmhuTzFV2k4RKYwpEHVjskJktRd`
+You are welcome support this project using [Flattr](https://flattr.com/submit/auto?user_id=idleberg&url=https://github.com/idleberg/sublime-tinkertoys) or Bitcoin `17CXJuPsmhuTzFV2k4RKYwpEHVjskJktRd`
