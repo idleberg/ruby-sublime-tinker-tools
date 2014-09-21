@@ -1,11 +1,11 @@
-# sublime-tinkertoys
+# Sublime Text Tinkertools
 
-Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) snippets to snippets and vice versa
+Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) completions to snippets and vice versa
 
 ## Installation
 
-1. Clone the repository `git clone https://github.com/idleberg/sublime-tinkertoys.git`
-2. Change directory `cd sublime-tinkertoys.git`
+1. Clone the repository `git clone https://github.com/idleberg/sublime-tinkertools.git`
+2. Change directory `cd sublime-tinkertools.git`
 3. Install Gems using [Bundler](http://bundler.io/) `bundle install`
 
 ## Usage
@@ -41,4 +41,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Donate
 
-You are welcome support this project using [Flattr](https://flattr.com/submit/auto?user_id=idleberg&url=https://github.com/idleberg/sublime-tinkertoys) or Bitcoin `17CXJuPsmhuTzFV2k4RKYwpEHVjskJktRd`
+You are welcome support this project using [Flattr](https://flattr.com/submit/auto?user_id=idleberg&url=https://github.com/idleberg/sublime-tinkertools) or Bitcoin `17CXJuPsmhuTzFV2k4RKYwpEHVjskJktRd`

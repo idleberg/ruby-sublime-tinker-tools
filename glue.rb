@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 =begin
-    sublime-glue 0.1 – http://github.com/idleberg/sublime-tinkertoys
+    sublime-glue 0.1 – http://github.com/idleberg/sublime-tinkertools
     
     The MIT License (MIT)
     
@@ -87,7 +87,7 @@ end
 unless scope.to_s.empty? || snippets.to_s.empty?
 
     # Create object
-    completions = {:generator => "http://github.com/idleberg/sublime-tinkertoys", :scope => scope, :completions => snippets}
+    completions = {:generator => "http://github.com/idleberg/sublime-tinkertools", :scope => scope, :completions => snippets}
 
     # Write to JSON
     puts "> Writing \"#{output}\"\n\n"

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 =begin
-    sublime-scissors 0.1 – http://github.com/idleberg/sublime-tinkertoys
+    sublime-scissors 0.1 – http://github.com/idleberg/sublime-tinkertools
     
     The MIT License (MIT)
     
@@ -56,7 +56,7 @@ EOF
 # Methods
 def product_xml(scope, trigger, contents)
     xml = Builder::XmlMarkup.new( :indent => 2 )
-    xml.comment! "http://github.com/idleberg/sublime-tinkertoys"
+    xml.comment! "http://github.com/idleberg/sublime-tinkertools"
     xml.snippet do |el|
         el << "  <content><![CDATA[\n"+contents+"\n]]></content>\n"
         el.tabTrigger trigger
