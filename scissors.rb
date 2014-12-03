@@ -139,7 +139,7 @@ end
 
 # Game Over
 if counter == 0
-    puts "\nNo files found"
+    puts "\nError: No files found"
 elsif counter == 1
      puts "\nConverted #{counter} file"
 else
