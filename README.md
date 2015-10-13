@@ -17,9 +17,28 @@ Use `scissors.rb -i input_file [options]` to cut completion file into single sni
 * `trigger_filter` define rules to replace strings in `trigger` before using its name to create a file
 * `contents_filter` define rules to replace strings in `completion` before writing it to a snippet
 
+**Examples:**
+
+```bash
+# Convert single file
+scissors.rb -i AppleScript.sublime-completions
+
+# Use quotes with wildcards
+scissors.rb -i "*.sublime-completions"
+
+# Delete input file on completion
+scissors.rb -i Ruby.sublime-completions -D
+```
+
 ### glue.rb
 
 Use `glue.rb -i input_file -o output_file` to merge several snippets into a single completions file. You can set the following configuration option in the header of the script.
+
+**Examples:**
+
+```bash
+# Use quotes with wildcards
+glue.rb -i "snippets/*" -o AppleScript.sublime-completions.
 
 ## License
 
