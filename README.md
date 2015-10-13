@@ -38,7 +38,8 @@ Use `glue.rb -i input_file -o output_file` to merge several snippets into a sing
 
 ```bash
 # Use quotes with wildcards
-glue.rb -i "snippets/*" -o AppleScript.sublime-completions.
+glue.rb -i "snippets/*" -o AppleScript.sublime-completions
+```
 
 ## License
 
