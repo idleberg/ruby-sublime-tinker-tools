@@ -5,7 +5,7 @@ Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) completi
 ## Installation
 
 1. Clone the repository `git clone https://github.com/idleberg/sublime-tinkertools.git`
-2. Change directory `cd sublime-tinkertools.git`
+2. Change directory `cd sublime-tinkertools`
 3. Install Gems using [Bundler](http://bundler.io/) `bundle install`
 
 ## Usage
