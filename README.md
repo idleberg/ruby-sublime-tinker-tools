@@ -49,6 +49,9 @@ Use glue to merge several snippets into a single completions file.
 ```bash
 # Use quotes with wildcards
 glue.rb -i "snippets/*" -o AppleScript.sublime-completions
+
+# Delete input file on completion
+glue.rb -i "snippets/*" -o Ruby.sublime-completions -D
 ```
 
 #### Filters
