@@ -12,7 +12,7 @@ Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) completi
 
 ### scissors.rb
 
-Use `scissors.rb -i input_file [options]` to cut completion file into single snippet files.
+Use scissors to cut a completion file into many snippet files.
 
 #### Examples
 
@@ -36,7 +36,7 @@ You can define custom filters in the header of the script:
 
 ### glue.rb
 
-Use `glue.rb -i input_file -o output_file` to merge several snippets into a single completions file. You can set the following configuration option in the header of the script.
+Use `glue to merge several snippets into a single completions file.
 
 #### Examples
 
