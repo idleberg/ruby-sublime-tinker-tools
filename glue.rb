@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 
 =begin
-    sublime-glue 0.1 – http://github.com/idleberg/sublime-tinkertools
+    sublime-glue 
+    http://github.com/idleberg/sublime-tinkertools
     
     The MIT License (MIT)
     
-    Copyright (c) 2014 Jan T. Sott
+    Copyright (c) 2014, 2015 Jan T. Sott
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -26,30 +27,71 @@
     THE SOFTWARE.
 =end
 
+$version = "0.2.0"
+
 require "json"
 require "nokogiri"
+require "optparse"
 
 # Configuration
 delete_snippets = false
 
 meta_info = <<-EOF
-\nsublime-glue, version 0.1
+\nsublime-glue, version #{$version}
 The MIT License
-Copyright (c) 2014 Jan T. Sott\n
+Copyright (c) 2014-2015 Jan T. Sott\n
 EOF
 
+
+# Methods
+def valid_xml?(xml)
+    Nokogiri::XML(xml) { |config| config.options = Nokogiri::XML::ParseOptions::STRICT }
+    true
+rescue
+    false
+end
+
+
+# parse arguments
+args = ARGV.count
+
+ARGV.options do |opts|
+    opts.banner = "Usage: [ruby] glue.rb [options]"
+
+    opts.on("-h", "--help", "prints this help") do
+        puts meta_info
+        puts opts
+        exit
+    end
+
+    opts.on("-i", "--input=<file>", Array, "Input file(s)") {
+        |input| $input = input
+    }
+
+    opts.on("-o", "--output=<file>", String, "Output file") {
+        |output| $output = output
+    }
+
+    opts.on_tail("-v", "--version", "show version") do
+        puts $version
+        exit
+    end
+
+    opts.parse!
+end
+
+
+# Let's go
 puts meta_info
 
 # Get output name from argument
-unless ARGV.count == 1 
-    puts "Error: Expecting 1 argument, passed #{ARGV.count}"
-    exit
-else 
-    output = ARGV[0]
-    unless output.end_with? ".sublime-completions"
-        output += ".sublime-completions"
-    end
-end 
+if args < 2
+    abort("Error: Expecting 2 arguments, passed #{args}")
+elsif $input == nil
+    abort("Error: no input argument passed")
+elsif $output == nil
+    abort("Error: no output argument passed")
+end
 
 # Initialize variables
 counter  = 0
@@ -57,11 +99,17 @@ scope    = nil;
 snippets = Array.new
 
 # Iterate over snippets in current directory
-Dir.glob("*.sublime-snippet") do |item|
+Dir.glob($input) do |item|
 
-    puts "< Reading \"#{item}\""
+    puts "Reading \"#{item}\""
 
     file = File.read(item)
+
+    # validate file
+    if (valid_xml?(file) == false)
+        abort("Error: Invalid XML file '#{item}'")
+    end
+
     xml = Nokogiri::XML(file)
 
     scope = xml.xpath("//scope")[0].text.strip
@@ -77,11 +125,16 @@ Dir.glob("*.sublime-snippet") do |item|
 
     # Delete completions
     if delete_snippets == true
-        puts "x Deleting \"#{item}\""
+        puts "Deleting \"#{item}\""
         File.delete(item)
     end
 
     counter += 1
+end
+
+# Add extension if necessary
+unless $output.end_with? ".sublime-completions"
+    $output += ".sublime-completions"
 end
 
 unless scope.to_s.empty? || snippets.to_s.empty?
@@ -90,8 +143,8 @@ unless scope.to_s.empty? || snippets.to_s.empty?
     completions = {:generator => "http://github.com/idleberg/sublime-tinkertools", :scope => scope, :completions => snippets}
 
     # Write to JSON
-    puts "> Writing \"#{output}\"\n\n"
-    File.open(output,"w") do |f|
+    puts "Writing \"#{$output}\"\n\n"
+    File.open($output,"w") do |f|
       f.write(JSON.pretty_generate(completions))
     end
 
@@ -101,7 +154,7 @@ end
 if counter == 0
     puts "No files found"
 elsif counter == 1
-     puts "Wrote #{counter} snippet to #{output}"
+     puts "Glued #{counter} file to #{$output}"
 else
-    puts "Wrote #{counter} snippets to #{output}"
+    puts "Glued #{counter} files to #{$output}"
 end

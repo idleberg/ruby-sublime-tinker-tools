@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 
 =begin
-    sublime-scissors 0.1 – http://github.com/idleberg/sublime-tinkertools
+    sublime-scissors
+    http://github.com/idleberg/sublime-tinkertools
     
     The MIT License (MIT)
     
-    Copyright (c) 2014 Jan T. Sott
+    Copyright (c) 2014, 2015 Jan T. Sott
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +27,14 @@
     THE SOFTWARE.
 =end
 
+$version = "0.2.0"
+
 require "builder"
 require "json"
+require "optparse"
 
 # Configuration
 to_subfolder        = true
-delete_completions  = false
 
 # Snippets are created based on trigger-names. Here you define which characters
 # you want to filter before creating a snippet file
@@ -47,11 +50,6 @@ contents_filter = [
     ['\"',    '"']
 ]
 
-meta_info = <<-EOF
-\nsublime-scissors, version 0.1
-The MIT License
-Copyright (c) 2014 Jan T. Sott
-EOF
 
 # Methods
 def product_xml(scope, trigger, contents)
@@ -71,35 +69,82 @@ def filter_str(input, filter)
     return input
 end
 
+def valid_json?(json)
+    JSON.parse(json)
+    true
+rescue
+    false
+end
+
+
+# Let's go
+meta_info = <<-EOF
+\nsublime-scissors, version #{$version}
+The MIT License
+Copyright (c) 2014-2015 Jan T. Sott\n
+EOF
+
+$delete_input = false
+
+# parse arguments
+args = ARGV.count
+
+ARGV.options do |opts|
+    opts.banner = "Usage: [ruby] scissors.rb [options]"
+
+    opts.on("-h", "--help", "prints this help") do
+        puts meta_info
+        puts opts
+        exit
+    end
+
+    opts.on("-i", "--input=<file>", Array, "Input file(s)") {
+        |input| $input = input
+    }
+
+    opts.on("-D", "--delete-input", "delete input file(s)") {
+        $delete_input = true
+    }
+
+    opts.on_tail("-v", "--version", "show version") do
+        puts $version
+        exit
+    end
+
+    opts.parse!
+end
+
 puts meta_info
 
 # Get output name from argument
-if ARGV.count > 1 
-    puts "\nError: Too many arguments passed (#{ARGV.count})"
+if args > 3
+    puts "Error: Too many arguments passed (#{args})"
     exit
-elsif ARGV.count == 0
-    input = "*.sublime-completions"
-else 
-    input = ARGV[0]
-    unless input.end_with? ".sublime-completions"
-        input += ".sublime-completions"
-    end
-end 
-
-counter = 0
+elsif $input == nil
+    abort("Error: no input argument passed")
+end
 
 # Iterate over completions in current directory
-Dir.glob(input) do |item|
+Dir.glob($input) do |item|
 
-    puts "\n< Reading \"#{item}\""
+    input_counter = 0
+    output_counter = 0
 
-    json = File.read(item)
-    parsed = JSON.load(json)
+    puts "Reading \"#{item}\""
 
-    scope = parsed["scope"]
+    file = File.read(item)
+
+    # validate file
+    if (valid_json?(file) == false)
+        abort("Error: Invalid JSON file '#{item}'")
+    else
+        json = JSON.load(file)
+    end    
+
+    scope = json["scope"]
 
     # Iterate over completions in JSON
-    parsed["completions"].each do |line|
+    json["completions"].each do |line|
         trigger  = line['trigger']
         contents = line['contents'].to_s
 
@@ -123,25 +168,28 @@ Dir.glob(input) do |item|
 
         # Write snippets
         File.open("#{dir}/#{output}.sublime-snippet", "w") do |snippet|
-          puts "> Writing \"#{output}.sublime-snippet\""
-          snippet.write(product_xml(scope, trigger, contents))   
+          puts "Writing \"#{output}.sublime-snippet\""
+          snippet.write(product_xml(scope, trigger, contents))
+          output_counter += 1
         end
     end
 
     # Delete completions
-    if delete_completions == true
-        puts "x Deleting \"#{item}\""
+    if $delete_input == true
+        puts "Deleting \"#{item}\""
         File.delete(item)
     end
 
-    counter += 1
+    input_counter += 1
+
+    # Game Over
+    if input_counter == 1
+        puts "Cut #{input_counter} file into #{output_counter}"
+    else
+        puts "Cut #{input_counter} files into #{output_counter}"
+    end
+
+    puts ""
 end
 
-# Game Over
-if counter == 0
-    puts "\nError: No files found"
-elsif counter == 1
-     puts "\nConverted #{counter} file"
-else
-    puts "\nConverted #{counter} files"
-end
+puts "Completed."
