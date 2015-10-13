@@ -27,7 +27,7 @@
     THE SOFTWARE.
 =end
 
-$version = "0.2.1"
+$version = "0.2.2"
 
 require "json"
 require "nokogiri"
@@ -51,6 +51,7 @@ rescue
     false
 end
 
+$delete_input = false
 
 # parse arguments
 args = ARGV.count
@@ -64,12 +65,16 @@ ARGV.options do |opts|
         exit
     end
 
-    opts.on("-i", "--input=<file>", Array, "Input file(s)") {
+    opts.on("-i", "--input=<file>", Array, "input file(s)") {
         |input| $input = input
     }
 
-    opts.on("-o", "--output=<file>", String, "Output file") {
+    opts.on("-o", "--output=<file>", String, "output file") {
         |output| $output = output
+    }
+
+    opts.on("-D", "--delete-input", "delete input file(s) afterwards") {
+        $delete_input = true
     }
 
     opts.on_tail("-v", "--version", "show version") do
@@ -124,7 +129,7 @@ Dir.glob($input) do |item|
     end
 
     # Delete completions
-    if delete_snippets == true
+    if $delete_input == true
         puts "Deleting \"#{item}\""
         File.delete(item)
     end
