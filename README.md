@@ -36,7 +36,7 @@ You can define custom filters in the header of the script:
 
 ### glue.rb
 
-Use `glue to merge several snippets into a single completions file.
+Use glue to merge several snippets into a single completions file.
 
 #### Examples
 
