@@ -1,6 +1,9 @@
 # Sublime Text Tinkertools
 
-Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) completions to snippets and vice versa
+[![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![GitHub](https://img.shields.io/github/release/idleberg/sublime-tinkertools.svg?style=flat-square)](https://github.com/idleberg/sublime-tinkertools/releases)
+
+Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) completions into snippets and vice versa
 
 ## Installation
 
@@ -25,6 +28,9 @@ scissors.rb -i "*.sublime-completions"
 
 # Delete input file on completion
 scissors.rb -i Ruby.sublime-completions -D
+
+# Do no organize snippets in sub-folders
+scissors.rb -i AppleScript.sublime-completions -X
 ```
 
 #### Filters
