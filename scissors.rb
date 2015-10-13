@@ -27,14 +27,11 @@
     THE SOFTWARE.
 =end
 
-$version = "0.2.0"
+$version = "0.2.1"
 
 require "builder"
 require "json"
 require "optparse"
-
-# Configuration
-to_subfolder        = true
 
 # Snippets are created based on trigger-names. Here you define which characters
 # you want to filter before creating a snippet file
@@ -84,6 +81,7 @@ The MIT License
 Copyright (c) 2014-2015 Jan T. Sott\n
 EOF
 
+$chaos = false
 $delete_input = false
 
 # parse arguments
@@ -104,6 +102,10 @@ ARGV.options do |opts|
 
     opts.on("-D", "--delete-input", "delete input file(s) afterwards") {
         $delete_input = true
+    }
+
+    opts.on("-X", "--chaos", Array, "don't organize snippets in sub-folders") {
+        $chaos = true
     }
 
     opts.on_tail("-v", "--version", "show version") do
@@ -156,7 +158,7 @@ Dir.glob($input) do |item|
         contents = filter_str(contents, contents_filter)
 
         # Set target directory
-        if to_subfolder == true
+        if $chaos == false
             dir = File.basename(item, ".*")
 
             unless Dir.exists?(dir)
