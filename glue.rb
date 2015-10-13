@@ -27,7 +27,7 @@
     THE SOFTWARE.
 =end
 
-$version = "0.2.0"
+$version = "0.2.1"
 
 require "json"
 require "nokogiri"
@@ -154,7 +154,7 @@ end
 if counter == 0
     puts "No files found"
 elsif counter == 1
-     puts "Glued #{counter} file to #{$output}"
+     puts "Glued #{counter} file into #{$output}"
 else
-    puts "Glued #{counter} files to #{$output}"
+    puts "Glued #{counter} files into #{$output}"
 end
