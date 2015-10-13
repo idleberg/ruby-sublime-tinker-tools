@@ -27,7 +27,7 @@
     THE SOFTWARE.
 =end
 
-$version = "0.2.1"
+$version = "0.2.2"
 
 require "builder"
 require "json"
@@ -96,7 +96,7 @@ ARGV.options do |opts|
         exit
     end
 
-    opts.on("-i", "--input=<file>", Array, "Input file(s)") {
+    opts.on("-i", "--input=<file>", Array, "input file(s)") {
         |input| $input = input
     }
 
@@ -104,7 +104,7 @@ ARGV.options do |opts|
         $delete_input = true
     }
 
-    opts.on("-X", "--chaos", Array, "don't organize snippets in sub-folders") {
+    opts.on("-X", "--chaos", "don't organize snippets in folders") {
         $chaos = true
     }
 
