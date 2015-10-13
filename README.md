@@ -12,10 +12,7 @@ Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) completi
 
 ### scissors.rb
 
-Use `scissors.rb -i input_file [options]` to cut completion file into single snippet files. You can define several filters in the header of the script:
-
-* `trigger_filter` define rules to replace strings in `trigger` before using its name to create a file
-* `contents_filter` define rules to replace strings in `completion` before writing it to a snippet
+Use `scissors.rb -i input_file [options]` to cut completion file into single snippet files.
 
 **Examples:**
 
@@ -29,6 +26,11 @@ scissors.rb -i "*.sublime-completions"
 # Delete input file on completion
 scissors.rb -i Ruby.sublime-completions -D
 ```
+
+You can define custom filters in the header of the script:
+
+* `trigger_filter` define rules to replace strings in `trigger` before using its name to create a file
+* `contents_filter` define rules to replace strings in `completion` before writing it to a snippet
 
 ### glue.rb
 
