@@ -119,7 +119,7 @@ end
 puts meta_info
 
 # Get output name from argument
-if args > 3
+if args > 4
     puts "Error: Too many arguments passed (#{args})"
     exit
 elsif $input == nil
