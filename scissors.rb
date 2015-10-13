@@ -102,7 +102,7 @@ ARGV.options do |opts|
         |input| $input = input
     }
 
-    opts.on("-D", "--delete-input", "delete input file(s)") {
+    opts.on("-D", "--delete-input", "delete input file(s) afterwards") {
         $delete_input = true
     }
 
