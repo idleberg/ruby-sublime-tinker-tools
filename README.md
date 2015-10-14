@@ -29,7 +29,7 @@ scissors.rb -i "*.sublime-completions"
 # Delete input file on completion
 scissors.rb -i Ruby.sublime-completions -D
 
-# Do no organize snippets in sub-folders
+# Do not organize snippets in sub-folders
 scissors.rb -i AppleScript.sublime-completions -X
 ```
 
