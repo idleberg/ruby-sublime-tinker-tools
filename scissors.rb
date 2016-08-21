@@ -156,6 +156,7 @@ Dir.glob($input) do |item|
         # Break if empty
         next if trigger.to_s.empty? || contents.to_s.empty?
 
+        # Does trigger contain tab-delimited description?
         if trigger.include?("\t")
             tabs = trigger.split("\t")
             if tabs.count > 2
