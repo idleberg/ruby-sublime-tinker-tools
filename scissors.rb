@@ -157,13 +157,13 @@ Dir.glob($input) do |item|
         next if trigger.to_s.empty? || contents.to_s.empty?
 
         if trigger.include?("\t")
-            split = trigger.split("\t")
-            if split.count > 2
+            tabs = trigger.split("\t")
+            if tabs.count > 2
                 puts "\nWarning: \"#{item}\" contains multiple tabulators, skipping\n\n"
                 next
             end
-            trigger = split.first
-            description = split.last
+            trigger = tabs.first
+            description = tabs.last
         end
 
         # Run filters
