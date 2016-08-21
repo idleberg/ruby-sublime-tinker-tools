@@ -124,13 +124,14 @@ Dir.glob($input) do |item|
 
     scope = xml.xpath("//scope")[0].text.strip
     trigger = xml.xpath("//tabTrigger")[0].text.strip
+
     if $skip_desc == false
         description = xml.xpath("//description")[0]
-    end
-    
-    if description != nil
-        description = "\t" + description.text.strip
-        p description
+
+        # Add tab-delimited description
+        if description != nil
+            description = "\t" + description.text.strip
+        end
     end
 
     # Break if empty
