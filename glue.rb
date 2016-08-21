@@ -173,7 +173,7 @@ end
 if counter == 0
     puts "No files found"
 elsif counter == 1
-     puts "Glued #{counter} file into #{$output} piece"
+     puts "Glued #{counter} piece into #{$output}"
 else
-    puts "Glued #{counter} files into #{$output} piece"
+    puts "Glued #{counter} pieces into #{$output}"
 end
