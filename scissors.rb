@@ -6,7 +6,7 @@
     
     The MIT License (MIT)
     
-    Copyright (c) 2014, 2015 Jan T. Sott
+    Copyright (c) 2014-2016 Jan T. Sott
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@
     THE SOFTWARE.
 =end
 
-$version = "0.2.2"
+$version = "0.3.0"
 
 require "builder"
 require "json"
@@ -49,12 +49,15 @@ contents_filter = [
 
 
 # Methods
-def product_xml(scope, trigger, contents)
+def product_xml(scope, trigger, contents, description)
     xml = Builder::XmlMarkup.new( :indent => 2 )
     xml.comment! "http://github.com/idleberg/sublime-tinkertools"
     xml.snippet do |el|
         el << "  <content><![CDATA[\n"+contents+"\n]]></content>\n"
         el.tabTrigger trigger
+        if description
+            el.description description
+        end
         el.scope scope
     end
 end
@@ -78,7 +81,7 @@ end
 meta_info = <<-EOF
 \nsublime-scissors, version #{$version}
 The MIT License
-Copyright (c) 2014-2015 Jan T. Sott\n
+Copyright (c) 2014-2016 Jan T. Sott\n
 EOF
 
 $chaos = false
@@ -153,6 +156,16 @@ Dir.glob($input) do |item|
         # Break if empty
         next if trigger.to_s.empty? || contents.to_s.empty?
 
+        if trigger.include?("\t")
+            split = trigger.split("\t")
+            if split.count > 2
+                puts "\nWarning: \"#{item}\" contains multiple tabulators, skipping\n\n"
+                next
+            end
+            trigger = split.first
+            description = split.last
+        end
+
         # Run filters
         output = filter_str(trigger, trigger_filter)
         contents = filter_str(contents, contents_filter)
@@ -171,7 +184,7 @@ Dir.glob($input) do |item|
         # Write snippets
         File.open("#{dir}/#{output}.sublime-snippet", "w") do |snippet|
           puts "Writing \"#{output}.sublime-snippet\""
-          snippet.write(product_xml(scope, trigger, contents))
+          snippet.write(product_xml(scope, trigger, contents, description))
           output_counter += 1
         end
     end
@@ -186,9 +199,9 @@ Dir.glob($input) do |item|
 
     # Game Over
     if input_counter == 1
-        puts "Cut #{input_counter} file into #{output_counter}"
+        puts "Cut #{input_counter} file into #{output_counter} pieces"
     else
-        puts "Cut #{input_counter} files into #{output_counter}"
+        puts "Cut #{input_counter} files into #{output_counter} pieces"
     end
 
     puts ""

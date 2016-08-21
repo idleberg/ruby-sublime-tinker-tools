@@ -6,7 +6,7 @@
     
     The MIT License (MIT)
     
-    Copyright (c) 2014, 2015 Jan T. Sott
+    Copyright (c) 2014-2016 Jan T. Sott
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@
     THE SOFTWARE.
 =end
 
-$version = "0.2.2"
+$version = "0.3.0"
 
 require "json"
 require "nokogiri"
@@ -39,7 +39,7 @@ delete_snippets = false
 meta_info = <<-EOF
 \nsublime-glue, version #{$version}
 The MIT License
-Copyright (c) 2014-2015 Jan T. Sott\n
+Copyright (c) 2014-2016 Jan T. Sott\n
 EOF
 
 
@@ -52,6 +52,7 @@ rescue
 end
 
 $delete_input = false
+$skip_desc = false
 
 # parse arguments
 args = ARGV.count
@@ -71,6 +72,10 @@ ARGV.options do |opts|
 
     opts.on("-o", "--output=<file>", String, "output file") {
         |output| $output = output
+    }
+
+    opts.on("-d", "--skip-description", "ignore snippet description") {
+        $skip_desc = true
     }
 
     opts.on("-D", "--delete-input", "delete input file(s) afterwards") {
@@ -119,13 +124,21 @@ Dir.glob($input) do |item|
 
     scope = xml.xpath("//scope")[0].text.strip
     trigger = xml.xpath("//tabTrigger")[0].text.strip
+    if $skip_desc == false
+        description = xml.xpath("//description")[0]
+    end
+    
+    if description != nil
+        description = "\t" + description.text.strip
+        p description
+    end
 
     # Break if empty
     next if scope.to_s.empty? || trigger.to_s.empty?
 
     xml.xpath("//content").each do |node|
         contents = node.text.strip
-        snippets << {:trigger => trigger, :contents => contents }
+        snippets << {:trigger => "#{trigger}#{description}", :contents => contents }
     end
 
     # Delete completions
@@ -159,7 +172,7 @@ end
 if counter == 0
     puts "No files found"
 elsif counter == 1
-     puts "Glued #{counter} file into #{$output}"
+     puts "Glued #{counter} file into #{$output} piece"
 else
-    puts "Glued #{counter} files into #{$output}"
+    puts "Glued #{counter} files into #{$output} piece"
 end
