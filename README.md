@@ -3,6 +3,8 @@
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![GitHub](https://img.shields.io/github/release/idleberg/sublime-tinkertools.svg?style=flat-square)](https://github.com/idleberg/sublime-tinkertools/releases)
 
+**Note:** This software is no longer maintained, please use [`sublime-tinker-tools`](https://www.npmjs.com/package/sublime-tinker-tools) instead
+
 Two Ruby scripts to convert [Sublime Text](http://www.sublimetext.com/) completions into snippets and vice versa
 
 ## Installation
